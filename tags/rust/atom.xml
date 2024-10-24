@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Machine doing and human learning - Rust</title>
+    <subtitle>This is the personal website of Bert de Bruijn, including a blog and more.</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://debruijn.github.io/personal_website/tags/rust/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://debruijn.github.io/personal_website"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2024-10-25T00:00:00+00:00</updated>
+    <id>https://debruijn.github.io/personal_website/tags/rust/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Rust in Python: summary of learnings so far</title>
+        <published>2024-10-25T00:00:00+00:00</published>
+        <updated>2024-10-25T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://debruijn.github.io/personal_website/blog/rust-python-99/"/>
+        <id>https://debruijn.github.io/personal_website/blog/rust-python-99/</id>
+        
+        <content type="html" xml:base="https://debruijn.github.io/personal_website/blog/rust-python-99/">&lt;p&gt;Rust in Python: learnings so far:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Not a big effort - especially if you have done it before&lt;&#x2F;li&gt;
+&lt;li&gt;Speed increases can be big&lt;&#x2F;li&gt;
+&lt;li&gt;Type of Python functions that would benefit most&lt;&#x2F;li&gt;
+&lt;li&gt;Variable transfer overhead&lt;&#x2F;li&gt;
+&lt;li&gt;Keep in mind the limitations of PyPI -&amp;gt; need to use manylinux wheels&lt;&#x2F;li&gt;
+&lt;li&gt;Personal plan of approach&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Rust in Python part 3: publish a Python package</title>
+        <published>2024-10-24T00:00:00+00:00</published>
+        <updated>2024-10-24T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://debruijn.github.io/personal_website/blog/rust-python-03/"/>
+        <id>https://debruijn.github.io/personal_website/blog/rust-python-03/</id>
+        
+        <content type="html" xml:base="https://debruijn.github.io/personal_website/blog/rust-python-03/">&lt;p&gt;Publishing a Python package with Rust in it&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Setup tomls and project structure and setuptools-rust&lt;&#x2F;li&gt;
+&lt;li&gt;Got stuck on version file&lt;&#x2F;li&gt;
+&lt;li&gt;To publish on PyPI, need to build with older GCC compiler to produce manylinux wheels&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Rust in Python part 1: getting started</title>
+        <published>2024-10-23T00:00:00+00:00</published>
+        <updated>2024-10-23T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://debruijn.github.io/personal_website/blog/rust-python-01/"/>
+        <id>https://debruijn.github.io/personal_website/blog/rust-python-01/</id>
+        
+        <content type="html" xml:base="https://debruijn.github.io/personal_website/blog/rust-python-01/">&lt;p&gt;On this page, I will talk you through how to get started with using Rust in Python. For this, I will assume you know the
+basics of Python (defining a function, importing a package, etc). To add on that, this page will present:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Rust, &amp;amp; how to get started with that up to a sufficient level for the goal of a single Python function call&lt;&#x2F;li&gt;
+&lt;li&gt;An example Python project to instead run via Rust&lt;&#x2F;li&gt;
+&lt;li&gt;The same functionality written in Rust&lt;&#x2F;li&gt;
+&lt;li&gt;How to compile and expose Rust code for use in Python&lt;&#x2F;li&gt;
+&lt;li&gt;How to adjust Python code to use this Rust code&lt;&#x2F;li&gt;
+&lt;li&gt;Comparison of run time&lt;&#x2F;li&gt;
+&lt;li&gt;More links and references&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The goal of this is to present a single solution that you can just copy to get started. Later on I will introduce some
+choices and alternatives that you might consider, but I want you to get to the power Rust from Python as fast as
+possible. So let&#x27;s dive in!&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;getting-started-with-rust&quot;&gt;Getting started with Rust&lt;&#x2F;h2&gt;
+&lt;p&gt;If you are 100% new to Rust (like I was a couple of weeks ago), there are two things you need to do to get started up
+to the level needed for this blog series: install Rust, and learn some basic Rust. For both of these, I suggest to
+follow &quot;The Book&quot; of Rust &lt;a href=&quot;https:&#x2F;&#x2F;doc.rust-lang.org&#x2F;book&#x2F;title-page.html&quot;&gt;here&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;To install Rust, follow instructions on &lt;a href=&quot;https:&#x2F;&#x2F;doc.rust-lang.org&#x2F;book&#x2F;ch01-01-installation.html&quot;&gt;section 1.1&lt;&#x2F;a&gt; of the
+book. In case you are using Linux like I do, that amounts to running:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#eff1f5;color:#4f5b66;&quot;&gt;&lt;code&gt;&lt;span&gt;curl --proto &amp;#39;=https&amp;#39; --tlsv1.2 https:&#x2F;&#x2F;sh.rustup.rs -sSf | sh
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;This downloads a shell script that installs the &lt;code&gt;rustup&lt;&#x2F;code&gt; tool which is used to maintain versions of Rust. More details
+can be found on the linked page.&lt;&#x2F;p&gt;
+&lt;p&gt;The next step is to &quot;just learn Rust&quot;. But don&#x27;t feel that this is too big of a hurdle! As mentioned on the introduction
+page, you don&#x27;t need to know all concepts of the Rust language to get to a stage where you can already replace a
+specific Python function with Rust calculations - often the ones for which this matter the most can be written using the
+most basic components of the language. More complicated stuff will only be relevant when more of your codebase will be
+written in Rust, which will come later together with learning those details later.&lt;&#x2F;p&gt;
+&lt;p&gt;So to get that basic level of Rust as needed for this series, continue reading &quot;The Book&quot; up to (and including)
+chapter 4. This means you will learn about how to compile and run a piece of Rust code, how to work with variables,
+functions, if-statements, for-loops and comments, which are all things that should be familiar to you from the Python
+world, although some things in Rust are defined stricter. Next to that, you will be introduced to a thing that almost
+uniquely defines Rust: its ownership rules and borrowing system.&lt;&#x2F;p&gt;
+&lt;p&gt;Then, you can come back here. Or, you can continue on reading about Rust. If you do, you will learn more about how Rust
+works which allows you to write more advanced stand-alone or library code. I can suggest combining that with doing the
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;rust-lang&#x2F;rustlings&quot;&gt;Rustlings&lt;&#x2F;a&gt; exercises, which mostly follow along with The Book.&lt;&#x2F;p&gt;
+&lt;p&gt;In any case, at some point I hope you will be back here, either with some basic or more advanced knowledge of Rust. (If
+you decide to just read along without knowing Rust, I think you will be able to understand most concepts as well,
+although some terms might not make sense to you).&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;example-project&quot;&gt;Example project&lt;&#x2F;h2&gt;
+&lt;p&gt;On this page, we will show an example project in Python, that we will adjust to make use of calculations in Rust
+instead. In this, for instructive purposes, suppose we want to calculate the nth number in the&lt;br &#x2F;&gt;
+&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Fibonacci_sequence&quot;&gt;Fibonacci&lt;&#x2F;a&gt; sequence, defined by the sum of the previous two values
+with 0 and 1 (or 1 and 1) as first two values. We will do this in a stupid way in both Python and Rust, which will help
+to demonstrate the speed gain without being &lt;a href=&quot;..&#x2F;rust-python-00&quot;&gt;smart in the first way&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;initialize-the-project&quot;&gt;Initialize the project&lt;&#x2F;h3&gt;
+&lt;p&gt;To start out, first go into the folder in which you put your projects and run &lt;code&gt;cargo new rust_in_python&lt;&#x2F;code&gt;. This will
+create a folder of that name with in it a few Rust related files that we will adjust along the way. But first, let&#x27;s
+make sure our Python setup that we will aim to replace is there.&lt;&#x2F;p&gt;
+&lt;p&gt;Note: in this setup we will make use of Maturin for building our Python packages with Rust compute. Make sure in your
+Python setup you have &lt;code&gt;maturin&lt;&#x2F;code&gt; and &lt;code&gt;patchelf&lt;&#x2F;code&gt; available, either by running &lt;code&gt;pip install maturin[patchelf]&lt;&#x2F;code&gt; or
+separately installing both packages. I recommend installing these not for your system python interpreter, but using
+a virtual environment or something similar (which is outside the scope of this series, but if you are new to it, you
+can read up on it &lt;a href=&quot;https:&#x2F;&#x2F;packaging.python.org&#x2F;en&#x2F;latest&#x2F;guides&#x2F;installing-using-pip-and-virtual-environments&#x2F;&quot;&gt;here&lt;&#x2F;a&gt;).&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;python-implementation&quot;&gt;Python implementation&lt;&#x2F;h3&gt;
+&lt;p&gt;The function that we will use to calculate the nth entry in the Fibonacci sequence in an inefficient (&quot;stupid&quot;) way is:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-python &quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n&lt;&#x2F;span&gt;&lt;span&gt;):
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;n == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;n == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(n-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;) + &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(n-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Now I can talk about what the stupid approach is: this approach will recalculate the same fibonacci number multiple
+times. The number at &lt;code&gt;n-1&lt;&#x2F;code&gt; is calculated 1, but the number at &lt;code&gt;n-2&lt;&#x2F;code&gt; is calculated twice: once for calculating &lt;code&gt;n-1&lt;&#x2F;code&gt;, and
+once in the final sum for &lt;code&gt;n&lt;&#x2F;code&gt;. It only gets worse from here: &lt;code&gt;n-3&lt;&#x2F;code&gt; is calculated three times (two times for &lt;code&gt;n-2&lt;&#x2F;code&gt;, and
+then once more for &lt;code&gt;n-1&lt;&#x2F;code&gt;), &lt;code&gt;n-4&lt;&#x2F;code&gt; five times, &lt;code&gt;n-5&lt;&#x2F;code&gt; eight times, et cetera. (Do you see the pattern in here?)&lt;&#x2F;p&gt;
+&lt;p&gt;A more efficient calculation would store the already-calculated values in some way or avoid having to do the calculation
+multiple times in another way. But remember: we are not trying to be type-1 smart here. So, we use the calculation above
+to calculate, say, the 40th entry in the sequence:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-python &quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span&gt;time
+&lt;&#x2F;span&gt;&lt;span&gt;before = time.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;time&lt;&#x2F;span&gt;&lt;span&gt;()
+&lt;&#x2F;span&gt;&lt;span&gt;result = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;40&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;after = time.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;time&lt;&#x2F;span&gt;&lt;span&gt;()
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;print&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;f&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Result in Python after &lt;&#x2F;span&gt;&lt;span&gt;{after-before&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;:.2f&lt;&#x2F;span&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; seconds is: &lt;&#x2F;span&gt;&lt;span&gt;{result}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;which prints on my PC&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#eff1f5;color:#4f5b66;&quot;&gt;&lt;code&gt;&lt;span&gt;Result in Python after 19.07 seconds is: 102334155.
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Let&#x27;s see what this looks like in Rust!&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;rust-implementation&quot;&gt;Rust implementation&lt;&#x2F;h3&gt;
+&lt;p&gt;The analogue function definition in Rust could be written like:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;usize&lt;&#x2F;span&gt;&lt;span&gt;) -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;usize &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; n == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1 &lt;&#x2F;span&gt;&lt;span&gt;|| n == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2 &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
+&lt;&#x2F;span&gt;&lt;span&gt;    } &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(n - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;) + &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(n - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Note that if you got further than chapter 4 in the Book of Rust, you will have been introduced to the &lt;code&gt;match&lt;&#x2F;code&gt; syntax
+which is an alternative and possibly more &quot;rustonic&quot;; but this version works as well and contains no Rust syntax
+that is not introduced in the first 4 chapters.&lt;&#x2F;p&gt;
+&lt;p&gt;To run the above as pure Rust code, you could put the above directly in &lt;code&gt;main.rs&lt;&#x2F;code&gt; in your &lt;code&gt;src&#x2F;&lt;&#x2F;code&gt; folder. The result
+could be like what follows, which also includes &lt;code&gt;Instant&lt;&#x2F;code&gt; from the standard Rust library to create a simple timer:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;use &lt;&#x2F;span&gt;&lt;span&gt;std::time::Instant;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;usize&lt;&#x2F;span&gt;&lt;span&gt;) -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;usize &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; n == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1 &lt;&#x2F;span&gt;&lt;span&gt;|| n == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2 &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
+&lt;&#x2F;span&gt;&lt;span&gt;    } &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(n - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;) + &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(n - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;main&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; before = Instant::now();
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; res = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;40&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; after = Instant::now();
+&lt;&#x2F;span&gt;&lt;span&gt;    println!(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Result in Rust after &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;{:?}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; is: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;{}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, after - before, res)
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;On my PC executing this with &lt;code&gt;cargo run&lt;&#x2F;code&gt; results in the output:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#eff1f5;color:#4f5b66;&quot;&gt;&lt;code&gt;&lt;span&gt;Result in Rust after 650.475884ms is: 102334155.
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Two important observations:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;Happy to see the answer is the same! Otherwise we&#x27;d have a problem..&lt;&#x2F;li&gt;
+&lt;li&gt;Also, happy to see that Rust is much faster! Otherwise, we&#x27;d be doing this without gain.&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h3 id=&quot;rust-adjustments-for-use-in-python&quot;&gt;Rust adjustments for use in Python&lt;&#x2F;h3&gt;
+&lt;p&gt;To convert the above to something that can be used in Python, some things have to be changed:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Move the &lt;code&gt;fibo&lt;&#x2F;code&gt; function above to &lt;code&gt;lib.rs&lt;&#x2F;code&gt; in the &lt;code&gt;src&#x2F;&lt;&#x2F;code&gt; folder&lt;&#x2F;li&gt;
+&lt;li&gt;In &lt;code&gt;main.rs&lt;&#x2F;code&gt;, add &lt;code&gt;use fibo_rust::fibo;&lt;&#x2F;code&gt; to the top&lt;&#x2F;li&gt;
+&lt;li&gt;In &lt;code&gt;lib.rs&lt;&#x2F;code&gt;, adjust &lt;code&gt;fibo&lt;&#x2F;code&gt; to be a pyfunction (see below)&lt;&#x2F;li&gt;
+&lt;li&gt;Also add &lt;code&gt;fiborust&lt;&#x2F;code&gt; as a pymodule (also see below)&lt;&#x2F;li&gt;
+&lt;li&gt;Update the &lt;code&gt;Cargo.toml&lt;&#x2F;code&gt; to make use of pyo3 (see even further below)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The resulting &lt;code&gt;lib.rs&lt;&#x2F;code&gt; becomes:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;use &lt;&#x2F;span&gt;&lt;span&gt;pyo3::prelude::*;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;pyfunction&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;usize&lt;&#x2F;span&gt;&lt;span&gt;) -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;usize &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; n == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1 &lt;&#x2F;span&gt;&lt;span&gt;|| n == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2 &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
+&lt;&#x2F;span&gt;&lt;span&gt;    } &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(n - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;) + &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(n - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;pymodule&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;#[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;pyo3&lt;&#x2F;span&gt;&lt;span&gt;(name = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;fibo_rust&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;fiborust&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m&lt;&#x2F;span&gt;&lt;span&gt;: &amp;amp;Bound&amp;lt;&amp;#39;_, PyModule&amp;gt;) -&amp;gt; PyResult&amp;lt;()&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    m.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;add_function&lt;&#x2F;span&gt;&lt;span&gt;(wrap_pyfunction!(fibo, m)?)?;
+&lt;&#x2F;span&gt;&lt;span&gt;    Ok(())
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;In this, the name &lt;code&gt;fibo_rust&lt;&#x2F;code&gt; is used to make clear what you will import from in Python. What additionally is important
+to note:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;we are importing from &lt;code&gt;pyo3&lt;&#x2F;code&gt; on top, which is the package Maturin uses behind the scenes for the Rust-Python
+integration&lt;&#x2F;li&gt;
+&lt;li&gt;each function you want to use in Python needs to be flagged with &lt;code&gt;#[pyfunction]&lt;&#x2F;code&gt;. This will (among other things) make
+sure the Rust compiler will check whether this Rust variable can be converted to a Python variable (which is fine for
+builtin variable types like &lt;code&gt;usize&lt;&#x2F;code&gt;)&lt;&#x2F;li&gt;
+&lt;li&gt;each function you want to use in Python also needs to be included in the &lt;code&gt;#[pymodule]&lt;&#x2F;code&gt; section using the
+&lt;code&gt;add_function&lt;&#x2F;code&gt; call. The other syntax used in the &lt;code&gt;fiborust&lt;&#x2F;code&gt; definition is outside the scope of this blog.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The updated &lt;code&gt;Cargo.toml&lt;&#x2F;code&gt; will have to contain the following lines:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;toml&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-toml &quot;&gt;&lt;code class=&quot;language-toml&quot; data-lang=&quot;toml&quot;&gt;&lt;span&gt;[lib]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name &lt;&#x2F;span&gt;&lt;span&gt;= &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;fibo_rust&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;crate-type &lt;&#x2F;span&gt;&lt;span&gt;= [&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;cdylib&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;lib&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;]
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[dependencies.pyo3]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;version &lt;&#x2F;span&gt;&lt;span&gt;= &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;0.22.5&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;features &lt;&#x2F;span&gt;&lt;span&gt;= [&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;abi3-py310&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;]
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;This specifies:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;the name the library will have in Python (as a module) - I can recommend something different than the folder name&lt;&#x2F;li&gt;
+&lt;li&gt;the library-type, which next to normal &lt;code&gt;lib&lt;&#x2F;code&gt; now also needs to be &lt;code&gt;cdylib&lt;&#x2F;code&gt; (you can also leave out &lt;code&gt;lib&lt;&#x2F;code&gt; but then
+the result is no longer runnable in Rust by itself using &lt;code&gt;cargo run&lt;&#x2F;code&gt;; in that case, you can remove &lt;code&gt;main.rs&lt;&#x2F;code&gt;)&lt;&#x2F;li&gt;
+&lt;li&gt;the version of pyo3 to use&lt;&#x2F;li&gt;
+&lt;li&gt;which Python ABI to use as a lowerbound - I have selected Python 3.10 here but other values can be used as well
+(up from py38 for Python 3.8 as the lowest)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;compiling-the-rust-package-for-python-use&quot;&gt;Compiling the Rust package for Python use&lt;&#x2F;h3&gt;
+&lt;p&gt;Next, we will finally be using Maturin for actually making the Rust function available to be called in Python. From
+the same directory as that contains your &lt;code&gt;src&lt;&#x2F;code&gt; folder and your &lt;code&gt;Cargo.toml&lt;&#x2F;code&gt;, run the command &lt;code&gt;maturin develop&lt;&#x2F;code&gt; (with
+your virtual environment active, if you are choosing to make use of that setup). This will automatically compile the
+Rust code, wrap it with some Python-to-Rust and Rust-to-Python variable converters, and put it in your &lt;code&gt;site-packages&lt;&#x2F;code&gt;
+in the currently used Python interpreter. That means it is importable from Python!&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;adjustments-in-python-code&quot;&gt;Adjustments in Python code&lt;&#x2F;h3&gt;
+&lt;p&gt;To import and use the package in Python, adjust the above Python script to the following:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-python &quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;from &lt;&#x2F;span&gt;&lt;span&gt;fibo_rust &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span&gt;fibo
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span&gt;time
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;before = time.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;time&lt;&#x2F;span&gt;&lt;span&gt;()
+&lt;&#x2F;span&gt;&lt;span&gt;result = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;fibo&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;40&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;after = time.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;time&lt;&#x2F;span&gt;&lt;span&gt;()
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;print&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;f&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Result in Python with Rust after &lt;&#x2F;span&gt;&lt;span&gt;{after-before&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;:.2f&lt;&#x2F;span&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; seconds is: &lt;&#x2F;span&gt;&lt;span&gt;{result}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Note that this is the same code as above, with just the &lt;code&gt;fibo&lt;&#x2F;code&gt; function definition replaced with importing &lt;code&gt;fibo&lt;&#x2F;code&gt; from
+the &lt;code&gt;fibo_rust&lt;&#x2F;code&gt; module. As a Python user, nothing would make it seem that this module is not just a native Python
+function. Except for the second note, namely that your IDE might not (immediately) recognize this new module and flag
+it as an import that shouldn&#x27;t work, even though it does work. Your mileage may vary.&lt;&#x2F;p&gt;
+&lt;p&gt;On my computer, running the above code prints:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#eff1f5;color:#4f5b66;&quot;&gt;&lt;code&gt;&lt;span&gt;Result in Python with Rust after 0.67 seconds is: 102334155.
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;It works! The runtime of 0.67 seconds is roughly comparable with the 650ms reported by Rust, and significantly lower
+than the initial 19.07 seconds from the first Python version. For this, we needed only very basic Rust knowledge,
+a very simple reimplementation of the calculation in Rust without changing the internal logic, and the setup with
+Maturin and the adjustments in &lt;code&gt;Cargo.toml&lt;&#x2F;code&gt;. Not too much effort for around a 30x speed boost. Great!&lt;&#x2F;p&gt;
+&lt;p&gt;At least.. as long as this actually is a realistic representation of what you might achieve in practice. Is it?
+It can be, but by how much can differ. Let&#x27;s look at a different example that illustrates a potential limitation in
+&lt;a href=&quot;..&#x2F;rust-python-02&quot;&gt;the next part&lt;&#x2F;a&gt;, or check out some additional background and reading below first.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;links&quot;&gt;Links&lt;&#x2F;h2&gt;
+&lt;p&gt;For full code used in this example, have a look at the &lt;code&gt;rust_in_python&lt;&#x2F;code&gt; folder in my
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;debruijn&#x2F;website_examples&quot;&gt;websites_examples&lt;&#x2F;a&gt; repository.&lt;&#x2F;p&gt;
+&lt;p&gt;In case you&#x27;d like to view some other examples of using Maturin, have a look at these links:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;On the main website of maturin, there is a different &lt;a href=&quot;https:&#x2F;&#x2F;www.maturin.rs&#x2F;tutorial&quot;&gt;tutorial&lt;&#x2F;a&gt; to get you started.
+This one uses a bit more advanced Rust syntax, but can be helpful if you are also a bit further in your Rust journey.&lt;&#x2F;li&gt;
+&lt;li&gt;Some well-known Python packages use Rust and Maturin under the hood, like &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;pola-rs&#x2F;polars&quot;&gt;polars&lt;&#x2F;a&gt;
+and &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;astral-sh&#x2F;ruff&quot;&gt;ruff&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Rust in Python part 2: more detailed example</title>
+        <published>2024-10-22T00:00:00+00:00</published>
+        <updated>2024-10-22T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://debruijn.github.io/personal_website/blog/rust-python-02/"/>
+        <id>https://debruijn.github.io/personal_website/blog/rust-python-02/</id>
+        
+        <content type="html" xml:base="https://debruijn.github.io/personal_website/blog/rust-python-02/">&lt;p&gt;After the instructions on setting up Maturin for the &quot;simple&quot; Fibonacci example, you might have questions how well this
+generalizes to bigger actual problems. Of course, the answer will be &quot;it depends&quot;, and to get some more intuition on
+what it might depend on, let&#x27;s first look into a bigger example that is still not an actual problem.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;advent-of-code-2018-day-5&quot;&gt;Advent of Code 2018 day 5&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;what-is-advent-of-code&quot;&gt;What is Advent of Code?&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;what-is-the-problem-on-day-5-of-2018&quot;&gt;What is the problem on day 5 of 2018?&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;initial-python-implementation&quot;&gt;Initial Python implementation&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;doing-the-core-calculations-in-rust&quot;&gt;Doing the core calculations in Rust&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;run-time-comparison-incl-a-full-rust-implementation&quot;&gt;Run-time comparison, incl a full Rust implementation&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;insights&quot;&gt;Insights&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;additional-tweaks-or-just-compilation-flags-if-no-other-pops-up&quot;&gt;Additional tweaks (or just compilation flags if no other pops up)&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;links&quot;&gt;Links&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Link to the code in my advent-of-code repo&lt;&#x2F;li&gt;
+&lt;li&gt;Details on compilation flags&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Rust in Python part 0: why and how?</title>
+        <published>2024-10-18T00:00:00+00:00</published>
+        <updated>2024-10-18T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://debruijn.github.io/personal_website/blog/rust-python-00/"/>
+        <id>https://debruijn.github.io/personal_website/blog/rust-python-00/</id>
+        
+        <content type="html" xml:base="https://debruijn.github.io/personal_website/blog/rust-python-00/">&lt;p&gt;When coding in Python, you will occasionally be in a situation where a single function or a few functions are
+responsible for the majority of your execution time. In most cases, that is fine: if for a particular task, 95% of your
+time is spent in a single function but the total run time is 1 second, and this particular task is not ran frequently,
+then there is no reason to worry about speed improvements.&lt;&#x2F;p&gt;
+&lt;p&gt;But of course, the opposite will happen as well: this 1 second task needs to be ran 1000 or 1000000 times each time
+you do a particular broader task (say, a model run in your data science research; or a ingestion of data in your
+pipeline; or every time a page loads on your website). If this becomes too critical to ignore, there are two things you
+can do:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Be smart&lt;&#x2F;li&gt;
+&lt;li&gt;Be smart, but differently&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;One way of being smart is looking at your process, and figure out if there are ways to avoid some of these calculations:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Are you recalculating a variable in a loop that could be precalculated once?&lt;&#x2F;li&gt;
+&lt;li&gt;Can you use a cache to store the output for particular input states? And if so, can you be smarter about defining what
+a state is, say when a permutation of the same inputs doesn&#x27;t matter for the output value?&lt;&#x2F;li&gt;
+&lt;li&gt;Is there a faster implementation of what you try to do out there that you can use? Does that meet your requirements?&lt;&#x2F;li&gt;
+&lt;li&gt;Can you make some assumptions to skip over some of the calculations, and get to, say, 99% of the result in 1% of the
+time?&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;This way of being smart requires you to think, which sometimes you don&#x27;t want to do. You might also have to convince
+other people that this is actually worth it. And: there is no guarantee that refactoring in such a way will lead to a
+speed improvement.&lt;&#x2F;p&gt;
+&lt;p&gt;So, what is that other way of being smart? Of course, given the title of this series of blog posts, the answer involves
+implementing your Python functionality in Rust, and using that in Python. Ideally, from a Python user perspective, they
+wouldn&#x27;t even know they use Rust under the hood. The next pages in this series will show my experience in learning how
+to do that (without knowing Rust beforehand!) and also the limitations to this approach.&lt;&#x2F;p&gt;
+&lt;p&gt;A few remarks to discuss beforehand, to get some of the caveats out of the way..&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;why-is-rust-faster-than-python&quot;&gt;Why is Rust faster than Python?&lt;&#x2F;h3&gt;
+&lt;p&gt;The main relevant difference between Rust and Python in this regard is that Rust is a compiled and statically-typed
+language and Python is not. This makes it that some of the complexities in what needs to happen are presolved by the
+Rust syntax and compiler, while the Python interpreter has to do that live while running the code. Think of adding two
+integers x and y together. In the case of Rust, the compiler will have made sure that the exact procedure that has to be
+followed has been defined, so when you run your code, it can just do that procedure. In the case of Python, a lot of
+questions (might*) have to be answered: are both x and y really numbers, and are they really integers? What do we do in
+case the answer is no? Should we already take the possibility that the answer is no into account beforehand? This
+results in more decision points needing to be figured out at every step, and decision points slow every process down
+(not just in code).&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;does-this-only-hold-for-rust&quot;&gt;Does this only hold for Rust?&lt;&#x2F;h3&gt;
+&lt;p&gt;No, there are many other choices you could make instead of Rust as well. An obvious one is C, which is the language used
+for a lot of core Python functions themselves (Python is not written in Python, or, not only in Python). There are some
+advantages and disadvantages of Rust over C. The main disadvantage of Rust is that for C, due to its historic presence,
+there are more resources out there than for Rust: more example code, more IDE integration, and also more fellow
+programmers that can help you out.&lt;&#x2F;p&gt;
+&lt;p&gt;The main advantage (although it depends who you ask) is that Rust is annoying. And annoying is good if you are new to
+statically-typed languages. There are also moments where the harsh rules of Rust could slow you down compared to using
+something like C, but these are less likely if you are just aiming to replace a single core Python function with a piece
+of external code in Rust or C. Instead, you are likely to often forget about the details of this lower-level language,
+and then it helps you that someone will remind you of what you are doing wrong.&lt;&#x2F;p&gt;
+&lt;p&gt;In a different use case, your choice of language might be different, but my experience was that I was able to within
+half a day was able (from scratch!) to learn some basic Rust, and learn how to call Rust form Python to speed-up a
+pre-existing function to less than 10% of its run time, and that the Rust compiler (and me shutting down their
+complaints) made me more confident that this solution actually works for a variety of input values.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;what-is-coming-up&quot;&gt;What is coming up?&lt;&#x2F;h3&gt;
+&lt;p&gt;This page tries to answer the &quot;Why Rust?&quot; question. What follows will be answers to the &quot;How to Rust&quot; question:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;How to get started with Rust, and Rust in Python&lt;&#x2F;li&gt;
+&lt;li&gt;How to apply this to a pre-existing function&lt;&#x2F;li&gt;
+&lt;li&gt;How to include Rust code in your Python package&lt;&#x2F;li&gt;
+&lt;li&gt;How to incorporate this into your Python toolset going forward&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;These pages will be more code-based and less text-based, but they will also involve my own experiences and suggestions.
+You can use them together with existing documentation (which can be a bit scattered all over the place).&lt;&#x2F;p&gt;
+&lt;p&gt;Of course, you can use this series as a starting point of learning more Rust (which is also what I did!). Or as a
+starting point for learning other languages and integrate them in Python (which is also what I have planned!). But you
+have to start somewhere, and it&#x27;s nice to get to some tangible gain that you can incorporate into an existing codebase
+or workflow. So for that first step, go to the &lt;a href=&quot;..&#x2F;rust-python-01&quot;&gt;first page&lt;&#x2F;a&gt; of this series.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>
